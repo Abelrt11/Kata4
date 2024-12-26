@@ -8,9 +8,9 @@ import java.util.List;
 
 public class DataProcesor {
 
-    public HashMap<String, Integer> average_rating_histogram_builder(DataReader reader) {
+    public HashMap<String, Integer> average_rating_histogram_builder(List<DataRegister> reader) {
         HashMap<String, Integer> average_rating_histogram = average_rating_histogram_initializer();
-        for (DataRegister register : reader.getRegistersList()) {
+        for (DataRegister register : reader) {
             double rating = register.getAverageRating();
             String range = getRatingRange(rating);
             average_rating_histogram.put(range, average_rating_histogram.getOrDefault(range, 0) + 1);
