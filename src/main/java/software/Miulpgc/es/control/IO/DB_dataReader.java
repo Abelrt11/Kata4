@@ -11,16 +11,16 @@ import java.util.List;
 
 public class DB_dataReader {
 
-    public List<DataRegister> readData() {
+    public List<DataRegister> readData(){
         String query = "SELECT * FROM title_ratings_with_id WHERE id = ?";
 
         int currentId = 1;
         boolean moreRows = true;
-        List<DataRegister> RegistersList = new ArrayList<>();
+        List<DataRegister> RegisterList = new ArrayList<>();
         String id;
         String averageRating;
         String numVotes;
-        try (Connection connection = DB_Connection.connect();
+        try (Connection connection = DB_Connection.Connect();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             while (moreRows) {
@@ -30,22 +30,17 @@ public class DB_dataReader {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
                         id = resultSet.getString("id");
-                        averageRating = resultSet.getString("average_rating");
-                        numVotes = resultSet.getString("num_votes");
-                        RegistersList.add(new DataRegister(id, Double.valueOf(averageRating), Integer.parseInt(numVotes)));
+                        averageRating = resultSet.getString("averageRating");
+                        numVotes = resultSet.getString("numVotes");
                     } else {
                         moreRows = false;
                     }
                 }
             }
 
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-
         }
-        return RegistersList;
+        return RegisterList;
     }
-
-
 }
